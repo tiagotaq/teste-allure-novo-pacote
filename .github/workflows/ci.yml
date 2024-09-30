@@ -1,12 +1,49 @@
 name: End-to-end tests
-on: push
+on:   
+  push: 
+  workflow_dispatch: 
+
 jobs:
   cypress-run:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      # Install npm dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: Cypress run
-        uses: cypress-io/github-action@v5
+
+      # Configurar Java (necessário para Allure)
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+
+      # Instalar dependências
+      - name: Install dependencies
+        run: npm install
+
+      # Executar os testes com Cypress
+      - name: Run Cypress tests
+        run: npx cypress run --env allure=true
+
+      # Gerar o relatório Allure
+      - name: Generate Allure Report
+        run: allure generate allure-results --clean
+
+      # Copiar arquivos de histórico e remover antigos
+      - name: Copy Allure History
+        run: |
+          rm -rf allure-results/history
+          cp -r allure-report/history allure-results/
+
+      # Publicar os relatórios Allure como artefato
+      - name: Upload Allure Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: allure-report
+          path: allure-report
+
+      # Publicar os relatórios em GitHub Pages (opcional)
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./allure-report

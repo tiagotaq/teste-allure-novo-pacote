@@ -5,27 +5,25 @@ describe('Central de Atendimento ao Cliente TAT', function () {
     cy.visit('../../src/index.html')
   })
 
-  Cypress._.times(2, function () {
     it('verifica o título da aplicação', function () {
       cy.title().should('be.equals', 'Central de Atendimento ao Cliente TAT EDITADO')
     })
+
+  it('preenche os campos obrigatórios e envia o formulário', function () {
+
+    const textoGrande = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse tristique lorem augue, eget tincidunt turpis ornare sed. Quisque suscipit feugiat velit sit amet venenatis. Pellentesque fermentum vestibulum orci tempor posuere. Ut vel eros in ipsum scelerisque ultrices vitae mollis orci. Duis ut magna non mauris lobortis tincidunt. Donec posuere sapien eu urna ullamcorper auctor. Suspendisse potenti. Fusce nunc elit, malesuada a commodo congue, consectetur at sem. Suspendisse lobortis ligula nunc, sed ornare velit euismod in. In id iaculis enim. Sed mattis tempor leo varius accumsan.'
+
+    cy.clock()
+
+    cy.get('#firstName').type('Tiago')
+    cy.get('#lastName').type('Andrade')
+    cy.get('#email').type('tiago@email.com')
+    cy.get('#open-text-area').type(textoGrande, { delay: 0 })
+    cy.contains('button', 'Enviar').click()
+    cy.get('.success').should('be.visible')
+    cy.tick(THREE_SECONDS_IN_MS)
+    cy.get('.success').should('not.be.visible')
   })
-
-  // it('preenche os campos obrigatórios e envia o formulário', function () {
-
-  //   const textoGrande = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse tristique lorem augue, eget tincidunt turpis ornare sed. Quisque suscipit feugiat velit sit amet venenatis. Pellentesque fermentum vestibulum orci tempor posuere. Ut vel eros in ipsum scelerisque ultrices vitae mollis orci. Duis ut magna non mauris lobortis tincidunt. Donec posuere sapien eu urna ullamcorper auctor. Suspendisse potenti. Fusce nunc elit, malesuada a commodo congue, consectetur at sem. Suspendisse lobortis ligula nunc, sed ornare velit euismod in. In id iaculis enim. Sed mattis tempor leo varius accumsan.'
-
-  //   cy.clock()
-
-  //   cy.get('#firstName').type('Tiago')
-  //   cy.get('#lastName').type('Andrade')
-  //   cy.get('#email').type('tiago@email.com')
-  //   cy.get('#open-text-area').type(textoGrande, { delay: 0 })
-  //   cy.contains('button', 'Enviar').click()
-  //   cy.get('.success').should('be.visible')
-  //   cy.tick(THREE_SECONDS_IN_MS)
-  //   cy.get('.success').should('not.be.visible')
-  // })
 
   // it('exibe mensagem de erro ao submeter o formulário com um email com formatação inválida', function () {
   //   cy.clock()

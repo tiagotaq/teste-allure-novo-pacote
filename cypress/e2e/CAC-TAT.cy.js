@@ -6,7 +6,7 @@ describe('Central de Atendimento ao Cliente TAT', function () {
   })
 
     it('verifica o título da aplicação', function () {
-      cy.title().should('be.equals', 'Central de Atendimento ao Cliente TAT EDITADO')
+      cy.title().should('be.equals', 'Central de Atendimento ao Cliente TAT')
     })
 
   it('preenche os campos obrigatórios e envia o formulário', function () {

@@ -4,10 +4,15 @@
   "description": "Repositório da versão 2 do curso básico de Cypress da Escola Talking About Testing",
   "main": "src/index.html",
   "scripts": {
-	"cy:open": "cypress open",
-  "cy:open:mobile": "cypress open --config viewportWidth=410 viewportHeight=860",
-  "cy:run:mobile": "cypress run --config viewportWidth=410 viewportHeight=860",
-	"test": "cypress run"
+    "cy:open": "cypress open",
+    "cy:open:mobile": "cypress open --config viewportWidth=410 viewportHeight=860",
+    "cy:run:mobile": "cypress run --config viewportWidth=410 viewportHeight=860",
+    "test": "npx cypress run --env allure=true",
+    "report:generate": "allure generate \"allure-results\" --clean",
+    "remove:old:folder": "powershell Remove-Item -Recurse -Force allure-results/history",
+    "copy:history": "powershell Copy-Item -Recurse allure-report/history allure-results/",
+    "report:open": "allure open",
+    "test:report:run": "npm run test && npm run report:generate && npm run remove:old:folder && npm run copy:history && run report:open"
   },
   "repository": {
     "type": "git",
@@ -24,6 +29,8 @@
   "license": "MIT",
   "homepage": "https://github.com/wlsf82/cypress-basico-v2#readme",
   "devDependencies": {
+    "@shelex/cypress-allure-plugin": "^2.40.2",
+    "allure-commandline": "^2.30.0",
     "cypress": "^12.10.0"
   }
 }

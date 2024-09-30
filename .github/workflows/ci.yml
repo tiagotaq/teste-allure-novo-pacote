@@ -22,8 +22,10 @@ jobs:
         run: npm install
 
       # Executar os testes com Cypress
-      - name: Run Cypress tests
-        run: npx cypress run --env allure=true
+      - name: Cypress run
+        uses: cypress-io/github-action@v5
+        env:
+          CYPRESS_ENV: allure=true
 
       # Gerar o relatório Allure
       - name: Generate Allure Report

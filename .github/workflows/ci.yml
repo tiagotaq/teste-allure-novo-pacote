@@ -31,7 +31,14 @@ jobs:
       - name: Generate Allure Report
         run: |
           npx allure generate allure-results --clean
-          cp -r allure-report/* /home/runner/work/test-allure-ci-cd/test-allure-ci-cd/allure-report/
+          # Criar um diretório temporário
+          mkdir -p temp-allure-report
+          # Copiar os arquivos gerados para o diretório temporário
+          cp -r allure-report/* temp-allure-report/
+          # Mover o conteúdo do diretório temporário para o destino correto
+          mv temp-allure-report/* /home/runner/work/test-allure-ci-cd/test-allure-ci-cd/allure-report/
+          # Remover o diretório temporário
+          rm -rf temp-allure-report
 
       # Copiar arquivos de histórico e remover antigos
       - name: Copy Allure History

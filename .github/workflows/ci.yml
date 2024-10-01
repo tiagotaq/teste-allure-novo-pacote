@@ -24,8 +24,12 @@ jobs:
       # Executar os testes com Cypress
       - name: Cypress run
         uses: cypress-io/github-action@v5
-        env:
-          CYPRESS_ENV: allure=true
+        with:
+          env: allure=true
+
+      - name: Verificar se allure-results foi gerado
+        run: |
+          ls -la allure-results
 
       # Gerar o relatório Allure
       - name: Generate Allure Report

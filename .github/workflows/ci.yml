@@ -33,16 +33,7 @@ jobs:
 
       # Gerar o relatório Allure
       - name: Generate Allure Report
-        run: |
-          npx allure generate allure-results --clean
-          # Criar um diretório temporário
-          mkdir -p temp-allure-report
-          # Usar rsync para mover o conteúdo evitando copiar o diretório dentro de si mesmo
-          rsync -av --progress allure-report/ temp-allure-report/
-          # Mover os arquivos para o diretório final
-          rsync -av --progress temp-allure-report/ /home/runner/work/test-allure-ci-cd/test-allure-ci-cd/allure-report/
-          # Remover o diretório temporário
-          rm -rf temp-allure-report
+        run: npx allure generate allure-results --clean
 
       # Copiar arquivos de histórico e remover antigos
       - name: Copy Allure History

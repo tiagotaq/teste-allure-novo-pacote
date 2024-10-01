@@ -29,7 +29,9 @@ jobs:
 
       # Gerar o relatório Allure
       - name: Generate Allure Report
-        run: npx allure generate allure-results --clean
+        run: |
+          npx allure generate allure-results --clean
+          cp -r allure-report/* allure-report/.* /home/runner/work/test-allure-ci-cd/test-allure-ci-cd/allure-report/
 
       # Copiar arquivos de histórico e remover antigos
       - name: Copy Allure History

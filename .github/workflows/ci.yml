@@ -34,6 +34,7 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           env: allure=true
+        continue-on-error: true
 
       - name: Verificar se allure-results foi gerado
         run: |

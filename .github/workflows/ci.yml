@@ -17,6 +17,14 @@ jobs:
           java-version: '11'
           distribution: 'temurin'  # Especifica a distribuição do JDK
 
+      # Restaurar o cache de histórico do Allure
+      - name: Restore Allure History
+        uses: actions/cache@v3
+        with:
+          path: allure-results/history
+          key: allure-history-${{ github.ref }}
+          restore-keys: allure-history-
+
       # Instalar dependências
       - name: Install dependencies
         run: npm install
@@ -40,6 +48,13 @@ jobs:
         run: |
           rm -rf allure-results/history
           cp -r allure-report/history allure-results/
+
+      # Atualizar o cache de histórico do Allure
+      - name: Cache Allure History
+        uses: actions/cache@v3
+        with:
+          path: allure-results/history
+          key: allure-history-${{ github.ref }}
 
       # Publicar os relatórios Allure como artefato
       - name: Upload Allure Report

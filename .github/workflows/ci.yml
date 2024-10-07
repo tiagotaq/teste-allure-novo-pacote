@@ -17,6 +17,10 @@ jobs:
           java-version: '11'
           distribution: 'temurin'  # Especifica a distribuição do JDK
 
+      # Instalar dependências
+      - name: Install dependencies
+        run: npm install
+
       # Restaurar o cache de histórico do Allure
       - name: Restore Allure History
         uses: actions/cache@v3
@@ -24,10 +28,6 @@ jobs:
           path: allure-results/history
           key: allure-history-${{ github.ref }}
           restore-keys: allure-history-
-
-      # Instalar dependências
-      - name: Install dependencies
-        run: npm install
 
       # Executar os testes com Cypress
       - name: Cypress run

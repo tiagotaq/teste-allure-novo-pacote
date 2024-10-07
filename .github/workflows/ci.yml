@@ -27,7 +27,8 @@ jobs:
         with:
           path: allure-results/history
           key: allure-history-${{ github.ref }}
-          restore-keys: allure-history-
+          restore-keys: |
+            allure-history-${{ github.ref }}-
 
       # Executar os testes com Cypress
       - name: Cypress run
@@ -48,12 +49,12 @@ jobs:
       - name: Copy Allure History
         run: cp -r allure-report/history allure-results/
 
-      # Atualizar o cache de histórico do Allure
+      # Atualizar o cache de histórico do Allure com uma chave única
       - name: Cache Allure History
         uses: actions/cache@v3
         with:
           path: allure-results/history
-          key: allure-history-${{ github.ref }}
+          key: allure-history-${{ github.ref }}-${{ github.run_id }}
 
       # Publicar os relatórios Allure como artefato
       - name: Upload Allure Report

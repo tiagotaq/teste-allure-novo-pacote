@@ -21,14 +21,13 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # Restaurar o cache de histórico do Allure
-      - name: Restore Allure History
-        uses: actions/cache@v3
+      # Baixar o artefato de histórico do Allure
+      - name: Baixar histórico do Allure
+        uses: actions/download-artifact@v3
         with:
+          name: allure-history
           path: allure-results/history
-          key: allure-history-${{ github.ref }}
-          restore-keys: |
-            allure-history-${{ github.ref }}-
+        continue-on-error: true  # Caso não exista o artefato, continua sem erro
 
       # Executar os testes com Cypress
       - name: Cypress run
@@ -49,12 +48,12 @@ jobs:
       - name: Copy Allure History
         run: cp -r allure-report/history allure-results/
 
-      # Atualizar o cache de histórico do Allure com uma chave única
-      - name: Cache Allure History
-        uses: actions/cache@v3
+      # Salvar o histórico atualizado como artefato
+      - name: Salvar histórico do Allure
+        uses: actions/upload-artifact@v3
         with:
+          name: allure-history
           path: allure-results/history
-          key: allure-history-${{ github.ref }}-${{ github.run_id }}
 
       # Publicar os relatórios Allure como artefato
       - name: Upload Allure Report

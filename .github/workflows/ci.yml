@@ -21,13 +21,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # Baixar o artefato de histórico do Allure
-      - name: Baixar histórico do Allure
-        uses: actions/download-artifact@v3
-        with:
-          name: allure-history
-          path: allure-results/history
-        continue-on-error: true  # Caso não exista o artefato, continua sem erro
+      # Baixar histórico do GitHub Pages
+      - name: Download Allure History from GitHub Pages
+        run: |
+          wget -q --show-progress https://<USERNAME>.github.io/<REPOSITORY>/history/ -O history
+          cp -r history allure-results/
 
       # Executar os testes com Cypress
       - name: Cypress run
@@ -44,17 +42,6 @@ jobs:
       - name: Generate Allure Report
         run: npx allure generate allure-results --clean
 
-      # Copiar arquivos de histórico e remover antigos
-      - name: Copy Allure History
-        run: cp -r allure-report/history allure-results/
-
-      # Salvar o histórico atualizado como artefato
-      - name: Salvar histórico do Allure
-        uses: actions/upload-artifact@v3
-        with:
-          name: allure-history
-          path: allure-results/history
-
       # Publicar os relatórios Allure como artefato
       - name: Upload Allure Report
         uses: actions/upload-artifact@v3
@@ -62,7 +49,7 @@ jobs:
           name: allure-report
           path: allure-report
 
-      # Publicar os relatórios em GitHub Pages (opcional)
+      # Publicar os relatórios em GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:

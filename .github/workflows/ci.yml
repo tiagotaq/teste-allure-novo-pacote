@@ -24,7 +24,7 @@ jobs:
       # Baixar histórico do GitHub Pages
       - name: Download Allure History from GitHub Pages
         run: |
-          wget -q --show-progress https://<USERNAME>.github.io/<REPOSITORY>/history/ -O history
+          wget -q --show-progress https://tiagotaq.github.io/test-allure-ci-cd/history/ -O history
           cp -r history allure-results/
 
       # Executar os testes com Cypress

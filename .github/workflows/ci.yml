@@ -21,6 +21,12 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      # Baixar histórico do GitHub Pages
+      - name: Download Allure History from GitHub Pages
+        run: |
+          wget -q --show-progress https://tiagotaq.github.io/test-allure-ci-cd/history/history.zip -O history.zip
+          unzip history.zip -d allure-results/history/
+
       # Executar os testes com Cypress
       - name: Cypress run
         uses: cypress-io/github-action@v5
@@ -28,30 +34,24 @@ jobs:
           env: allure=true
         continue-on-error: true
 
-      - name: Load test report history
-        uses: actions/checkout@v3
-        if: always()
-        continue-on-error: true
-        with:
-          ref: gh-pages
-          path: gh-pages
-
-      - name: Build test report
-        uses: simple-elf/allure-report-action@v1.7
-        if: always()
-        with:
-          gh_pages: gh-pages
-          allure_history: allure-history
-          allure_results: build/allure-results
-
-      - name: Ensure gh-pages branch exists
+      - name: Verificar se allure-results foi gerado
         run: |
-          git fetch origin gh-pages || git checkout --orphan gh-pages
+          ls -la allure-results
 
-      - name: Publish test report
+      # Gerar o relatório Allure
+      - name: Generate Allure Report
+        run: npx allure generate allure-results --clean
+
+      # Publicar os relatórios Allure como artefato
+      - name: Upload Allure Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: allure-report
+          path: allure-report
+
+      # Publicar os relatórios em GitHub Pages
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
-        if: always()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: allure-history
+          publish_dir: ./allure-report

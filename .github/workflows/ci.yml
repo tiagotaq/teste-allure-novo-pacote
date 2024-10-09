@@ -26,6 +26,7 @@ jobs:
         run: |
           wget -q --show-progress https://tiagotaq.github.io/test-allure-ci-cd/history/history.zip -O history.zip
           unzip history.zip -d allure-results/history/
+        continue-on-error: true
 
       # Executar os testes com Cypress
       - name: Cypress run

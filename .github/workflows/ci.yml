@@ -24,6 +24,7 @@ jobs:
       # Baixar histórico do GitHub Pages
       - name: Download Allure History from GitHub Pages
         run: |
+          mkdir -p allure-results/history
           wget -q --show-progress https://tiagotaq.github.io/test-allure-ci-cd/history/categories-trend.json -O allure-results/history/categories-trend.json
           wget -q --show-progress https://tiagotaq.github.io/test-allure-ci-cd/history/duration-trend.json -O allure-results/history/duration-trend.json
           wget -q --show-progress https://tiagotaq.github.io/test-allure-ci-cd/history/history-trend.json -O allure-results/history/history-trend.json

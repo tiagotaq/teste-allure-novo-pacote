@@ -25,18 +25,16 @@ jobs:
       - name: Download Allure History from GitHub Pages
         run: |
           mkdir -p allure-results/history
-          wget -q --show-progress https://tiagotaq.github.io/test-allure-ci-cd/history/categories-trend.json -O allure-results/history/categories-trend.json
-          wget -q --show-progress https://tiagotaq.github.io/test-allure-ci-cd/history/duration-trend.json -O allure-results/history/duration-trend.json
-          wget -q --show-progress https://tiagotaq.github.io/test-allure-ci-cd/history/history-trend.json -O allure-results/history/history-trend.json
-          wget -q --show-progress https://tiagotaq.github.io/test-allure-ci-cd/history/history.json -O allure-results/history/history.json
-          wget -q --show-progress https://tiagotaq.github.io/test-allure-ci-cd/history/retry-trend.json -O allure-results/history/retry-trend.json
+          wget -q --show-progress https://tiagotaq.github.io/teste-allure-novo-pacote/history/categories-trend.json -O allure-results/history/categories-trend.json
+          wget -q --show-progress https://tiagotaq.github.io/teste-allure-novo-pacote/history/duration-trend.json -O allure-results/history/duration-trend.json
+          wget -q --show-progress https://tiagotaq.github.io/teste-allure-novo-pacote/history/history-trend.json -O allure-results/history/history-trend.json
+          wget -q --show-progress https://tiagotaq.github.io/teste-allure-novo-pacote/history/history.json -O allure-results/history/history.json
+          wget -q --show-progress https://tiagotaq.github.io/teste-allure-novo-pacote/history/retry-trend.json -O allure-results/history/retry-trend.json
         continue-on-error: true
 
       # Executar os testes com Cypress
       - name: Cypress run
         uses: cypress-io/github-action@v5
-        with:
-          env: allure=true
         continue-on-error: true
 
       - name: Verificar se allure-results foi gerado
